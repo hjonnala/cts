@@ -29,7 +29,7 @@ appropriate archive for each architecture and OS you need to test. More
 info about which packages are needed for approval can be found in
 [Approval Requirements](#approval-requirements).
 
-(To be filled in once submitted to GitHub)
+The release packages can be found in the [GitHub Releases](https://github.com/google-coral/cts/releases/).
 
 If your system doesn't have a package, you can build the appropriate
 libcoral binaries.
@@ -76,7 +76,7 @@ default, this is `cts.txt` in the current directory.
 ## Approval Requirements
 In order to be approved for "Made with Coral Intelligence" branding, you should
 first talk with your Coral contact or reach out on the
-[Coral Sales Form](https://g.co/coral/sales) for legal questions.
+[Coral Sales Form](https://g.co/coral/sales) for parternship, co-marketing, and legal questions.
 
 Once it's time to run CTS, the requirements will vary based on the platform
 you have designed (and what it's intended to pair with):
