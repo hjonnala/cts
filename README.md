@@ -65,7 +65,8 @@ you already have this repo on your system and want to skip the download, simply
 link the folder into the working directory with coral_cts.py.
 
 ### Running the test
-The test runs in python, with no extra packages needed. To run:
+The test runs in python, with no extra packages needed. To run (note: this assumes that USB/PCIe access 
+is available to the current user, if not please use sudo or run as an administrator):
 ```
 python3 coral_cts.py
 ```
