@@ -102,7 +102,7 @@ class TestSuite():
         self._file_print("Temperatures During Tests" + "\n")
         self._file_print(SECTION_HEADER)
         for test in self.thermals:
-            self._file_print(test + ": " + str(self.thermals[test]))
+            self._file_print(test + ": " + str(self.thermals[test]) + "\n")
         self._file_print("\n")
 
     def _write_summary(self):
@@ -262,7 +262,7 @@ def main():
     if not os.path.isdir(os.path.join(os.getcwd(), "test_data")):
         print("Test data not found, downloading...")
         context = ssl._create_unverified_context()
-        with urlopen("https://github.com/google-coral/test_data/archive/master.zip", context=context) as zipresp, NamedTemporaryFile() as tfile:
+        with urlopen("https://github.com/google-coral/test_data/archive/c21de4450f88a20ac5968628d375787745932a5a.zip", context=context) as zipresp, NamedTemporaryFile() as tfile:
             tfile.write(zipresp.read())
             tfile.seek(0)
             print("Download complete, extracting...")

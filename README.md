@@ -58,8 +58,8 @@ sudo cpupower frequency-set --governor performance
 
 Once you have the archive, you're ready to extract it and run. Note that the
 test begins with downloading
-[Coral Test Data](https://github.com/google-coral/test_data) if there is not
-a folder named "test_data" in the extracted directory. Test data
+[Coral Test Data](https://github.com/google-coral/test_data/tree/c21de4450f88a20ac5968628d375787745932a5a) (checked out at at the Frogfish Release) 
+if there is not a folder named "test_data" in the extracted directory. Test data
 is the entire repository of Coral models, it takes up > 1 GB of storage. If
 you already have this repo on your system and want to skip the download, simply
 link the folder into the working directory with coral_cts.py.
