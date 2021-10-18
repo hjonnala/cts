@@ -259,15 +259,16 @@ def main():
     output_file = os.path.join(os.getcwd(), args.output)
 
     # Checks for and downloads/extracts test data.
+    TEST_DATA_COMMIT = "c21de4450f88a20ac5968628d375787745932a5a"
     if not os.path.isdir(os.path.join(os.getcwd(), "test_data")):
         print("Test data not found, downloading...")
         context = ssl._create_unverified_context()
-        with urlopen("https://github.com/google-coral/test_data/archive/c21de4450f88a20ac5968628d375787745932a5a.zip", context=context) as zipresp, NamedTemporaryFile() as tfile:
+        with urlopen("https://github.com/google-coral/test_data/archive/" + TEST_DATA_COMMIT + ".zip", context=context) as zipresp, NamedTemporaryFile() as tfile:
             tfile.write(zipresp.read())
             tfile.seek(0)
             print("Download complete, extracting...")
             unpack_archive(tfile.name, os.getcwd(), format='zip')
-        os.rename(os.path.join(os.getcwd(), "test_data-master"),
+        os.rename(os.path.join(os.getcwd(), "test_data-" + TEST_DATA_COMMIT),
                   os.path.join(os.getcwd(), "test_data"))
 
     with TestSuite(output_file) as cts:
