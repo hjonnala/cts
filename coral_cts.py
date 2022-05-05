@@ -252,6 +252,7 @@ class TestSuite():
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--test_name', default="tflite_utils_test")
     parser.add_argument('--output', default="cts.txt")
     args = parser.parse_args()
 
@@ -280,7 +281,9 @@ def main():
         cts.print_system_info()
 
         # Iterates through tests, outputting results to file and storing results.
-        cts.run_test(test=["tflite_utils_test"])
+        if args.test_name == 'tflite_utils_test':
+            cts.run_test(test=["tflite_utils_test"])
+        
         cts.run_test(test=["inference_stress_test",
                            "--stress_test_runs=10000", "--stress_with_sleep_test_runs=200"])
         cts.run_test(test=["model_loading_stress_test",
