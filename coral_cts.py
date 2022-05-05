@@ -284,10 +284,9 @@ def main():
 
     with TestSuite(output_file) as cts:
         # Verifies TPU(s) are attached
-        # tpus = cts.detect_tpus()
-        # if not tpus:
-        #     return
-        tpus = 1
+        tpus = cts.detect_tpus()
+        if not tpus:
+            return
 
         cts.print_system_info()
 
