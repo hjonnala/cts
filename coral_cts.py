@@ -20,6 +20,16 @@ The output is provided on stdout as well as to a file, passed in with the
 --output argument (by default cts.txt).
 
 In order to be approved for Coral branding, all tests must pass.
+
+python3 coral_cts.py --test_name tflite_utils_test
+python3 coral_cts.py --test_name inference_stress_test
+python3 coral_cts.py --test_name model_loading_stress_test
+python3 coral_cts.py --test_name inference_repeatability_test
+python3 coral_cts.py --test_name classification_models_test
+python3 coral_cts.py --test_name detection_models_test
+python3 coral_cts.py --test_name segmentation_models_test
+python3 coral_cts.py --test_name multiple_tpus_inference_stress_test
+python3 coral_cts.py --test_name models_benchmark
 """
 
 import argparse
@@ -257,7 +267,7 @@ def main():
     args = parser.parse_args()
 
     # Gets the complete path of file.
-    output_file = os.path.join(os.getcwd(), args.output)
+    output_file = os.path.join(os.getcwd(), f'{args.test_name}.txt')
 
     # Checks for and downloads/extracts test data.
     TEST_DATA_COMMIT = "c21de4450f88a20ac5968628d375787745932a5a"
@@ -274,36 +284,43 @@ def main():
 
     with TestSuite(output_file) as cts:
         # Verifies TPU(s) are attached
-        tpus = cts.detect_tpus()
-        if not tpus:
-            return
+        # tpus = cts.detect_tpus()
+        # if not tpus:
+        #     return
+        tpus = 1
 
         cts.print_system_info()
 
         # Iterates through tests, outputting results to file and storing results.
         if args.test_name == 'tflite_utils_test':
             cts.run_test(test=["tflite_utils_test"])
-        
-        cts.run_test(test=["inference_stress_test",
-                           "--stress_test_runs=10000", "--stress_with_sleep_test_runs=200"])
-        cts.run_test(test=["model_loading_stress_test",
-                           "--stress_test_runs=50"])
-        cts.run_test(test=["inference_repeatability_test",
-                           "--stress_test_runs=1000", "--gtest_repeat=20"])
+        if args.test_name == 'inference_stress_test':
+            cts.run_test(test=["inference_stress_test",
+                               "--stress_test_runs=10000", "--stress_with_sleep_test_runs=200"])
+        if args.test_name == 'model_loading_stress_test':
+            cts.run_test(test=["model_loading_stress_test",
+                               "--stress_test_runs=50"])
+        if args.test_name == 'inference_repeatability_test':
+            cts.run_test(test=["inference_repeatability_test",
+                               "--stress_test_runs=1000", "--gtest_repeat=20"])
         # For classification test, omit TF2 ResNet50 - which fails on some platforms.
-        cts.run_test(test=["classification_models_test", "--gtest_repeat=10",
-                           "--gtest_filter=-*tfhub_tf2_resnet_50_imagenet_ptq*"])
-        cts.run_test(test=["detection_models_test", "--gtest_repeat=100"])
-        cts.run_test(test=["segmentation_models_test", "--gtest_repeat=100"])
+        if args.test_name == 'classification_models_test':
+            cts.run_test(test=["classification_models_test", "--gtest_repeat=10",
+                               "--gtest_filter=-*tfhub_tf2_resnet_50_imagenet_ptq*"])
+        if args.test_name == 'detection_models_test':
+            cts.run_test(test=["detection_models_test", "--gtest_repeat=100"])
+        if args.test_name == 'segmentation_models_test':
+            cts.run_test(test=["segmentation_models_test", "--gtest_repeat=100"])
 
         # If more than 1 TPU is attached, runs multi-TPU tests.
-        if tpus > 1:
+        if tpus > 1 and args.test_name == 'multiple_tpus_inference_stress_test':
             cts.run_test(
                 test=["multiple_tpus_inference_stress_test", "--num_inferences=5000"])
 
         # Runs Benchmarks, which just reports results but don't compare.
         # Also note CPU scaling is not disabled (as it would require root).
-        cts.run_test(test=["models_benchmark", "--benchmark_color=false"])
+        if args.test_name == 'models_benchmark':
+            cts.run_test(test=["models_benchmark", "--benchmark_color=false"])
 
 
 if __name__ == "__main__":
